@@ -15,6 +15,7 @@ const secondValue = {
   value: "0",
   isEntered: false,
 };
+
 let result = "0";
 
 const clear = () => {
@@ -37,13 +38,13 @@ const isValidLenght = (numString) => {
 const displayResult = (num) => (resultAreaElement.innerText = num);
 
 const calculating = () => {
-  if (operator.value === "+") {
+  if (operator.value === "+")
     return parseInt(firstValue.value) + parseInt(secondValue.value);
-  } else if (operator.value === "-") {
+  if (operator.value === "-")
     return parseInt(firstValue.value) - parseInt(secondValue.value);
-  } else if (operator.value === "X") {
+  if (operator.value === "X")
     return parseInt(firstValue.value) * parseInt(secondValue.value);
-  } else if (operator.value === "/") {
+  if (operator.value === "/") {
     if (secondValue.value === "0") return "숫자 아님";
     return parseInt(parseInt(firstValue.value) / parseInt(secondValue.value));
   }
@@ -54,9 +55,13 @@ const firstValueInput = (chr) => {
     firstValue.value = chr;
     firstValue.isEntered = true;
     if (chr !== "-") displayResult(firstValue.value);
-  } else if ("0" <= chr && chr <= "9" && isValidLenght(firstValue.value)) {
-    if (firstValue.value.charAt(0) === "-" && chr === "0") return;
-    if (firstValue.value.charAt(0) === "0") {
+    return;
+  }
+  if ("0" <= chr && chr <= "9" && isValidLenght(firstValue.value)) {
+    if (
+      firstValue.value.charAt(0) === "0" ||
+      (firstValue.value.charAt(0) === "-" && chr === "0")
+    ) {
       firstValue.value = chr;
       return;
     }
@@ -67,15 +72,20 @@ const firstValueInput = (chr) => {
 };
 
 const operatorValueInput = (chr) => {
-  if (!firstValue.isEntered) firstValueInput(chr);
-  else if (secondValue.isEntered) {
+  if (!firstValue.isEntered){
+    firstValueInput(chr);
+    return;
+  }
+  if (secondValue.isEntered) {
     const number = calculating();
     displayResult(number);
     firstValue.value = number;
     operator.value = chr;
     secondValue.value = "0";
     secondValue.isEntered = false;
-  } else if (!(chr === "=" || firstValue.value === "-")) {
+    return
+  }
+  if (!(chr === "=" || firstValue.value === "-")) {
     operator.value = chr;
     operator.isEntered = true;
   }

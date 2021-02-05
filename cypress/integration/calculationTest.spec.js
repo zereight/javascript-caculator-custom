@@ -15,10 +15,8 @@ const numberClick = (num) => {
     numberClick(num2);
     cy.get('.operation').contains('=').click();
     // index.html의 total 접근해서 total의 기댓값이 텍스트 56
-    cy.get('#total').should(($total) => {
-      expect($total).to.contain(`${expectedResult}`);
-      // expect($total).to.contain('59'); // wrong
-    });
+    cy.get('#total').should('have.text', `${expectedResult}`);
+
     cy.get('.modifier').click();
   }
   
@@ -32,6 +30,7 @@ const numberClick = (num) => {
       calculationTest('5000', '+', '87', '587');
       calculationTest('-11', '+', '10', '-1');
       calculationTest('X8', '+', '12', '20');
+      calculationTest('-9999', '/', '+1', '-998');
     });
   
     it('2개의 숫자에 대해 뺄셈이 가능하다.', () => {
@@ -54,7 +53,7 @@ const numberClick = (num) => {
       calculationTest('7', 'X', '8', '56');
       calculationTest('00', 'X', '0', '0');
       calculationTest('999', 'X', '999', '998001');
-      calculationTest('-9999', 'X', '999', '998001');
+      calculationTest('-9999', 'X', '999', '-998001');
       calculationTest('-1', 'X', '09', '-9');
       calculationTest('-0-0-0-0-0--1', 'X', '09', '-9');
       calculationTest('00009', 'X', '-09', '0');
@@ -65,7 +64,7 @@ const numberClick = (num) => {
       calculationTest('7', '/', '7', '1');
       calculationTest('00', '/', '1000', '0');
       calculationTest('999', '/', '1', '999');
-      calculationTest('-9999', '/', '-999', '1');
+      calculationTest('-9999', '/', '999', '-1');
       calculationTest('-1', '/', '10', '0');
       calculationTest('-0-0-0-0-0--8', '/', '08', '-1');
       calculationTest('7', '/', '0', '숫자 아님');
